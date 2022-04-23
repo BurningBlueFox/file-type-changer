@@ -4,6 +4,7 @@ import (
 	"file-type-changer/path_walker"
 	"flag"
 	"fmt"
+	"regexp"
 )
 
 func ParseCli() *path_walker.ExtChangeJob {
@@ -13,6 +14,18 @@ func ParseCli() *path_walker.ExtChangeJob {
 
 	flag.Parse()
 
-	fmt.Printf("path: %s - new_extension_type: %s - whitelist: %s", *pathPtr, *extTypePtr, *whitelistPtr)
+	fmt.Printf("Path: %s\nNew Extension Type: %s\n", *pathPtr, *extTypePtr)
+
+	match, _ := regexp.MatchString("\\((.*?)\\)", *whitelistPtr)
+	if match {
+		regex, _ := regexp.Compile("\\((.*?)\\)")
+		matches := regex.FindAllString(*whitelistPtr, -1)
+		fmt.Println("Whitelist:")
+		for i, s := range matches {
+			group := s[1 : len(s)-1]
+			matches[i] = group
+			fmt.Printf("%d - %s\n", i, group)
+		}
+	}
 	return nil
 }

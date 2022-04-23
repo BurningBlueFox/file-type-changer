@@ -7,8 +7,8 @@ import (
 )
 
 func main() {
-	cli.ParseCli()
 	fmt.Println("File Type changer")
+	cli.ParseCli()
 
 	newWhitelist := path_walker.Whitelist{
 		"":          true,
