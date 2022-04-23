@@ -10,12 +10,10 @@ import (
 	"strings"
 )
 
-type Whitelist map[string]bool
-
 // WalkPath Walk the path and it's subdirectories while changing all files ending
 // with changedExtensions to the newExtensionType
-func WalkPath(dir, newExtensionType string, whitelist Whitelist) {
-	err := filepath.Walk(dir, walkPathCallback(newExtensionType, whitelist))
+func (e *ExtChangeJob) WalkPath() {
+	err := filepath.Walk(e.Path, walkPathCallback(e.NewExtensionType, e.Whitelist))
 	if err != nil {
 		log.Fatal(err)
 	}

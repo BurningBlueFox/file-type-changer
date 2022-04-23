@@ -8,17 +8,14 @@ import (
 func main() {
 	fmt.Println("File Type changer")
 
-	var (
-		path               string
-		targetExtension    string
-		affectedExtensions path_walker.Whitelist
-	)
-
-	path = "C:\\Users\\Thiago\\Desktop\\Test"
-	targetExtension = ".txt"
-	affectedExtensions = path_walker.Whitelist{
+	newWhitelist := path_walker.Whitelist{
 		"":          true,
 		".material": true,
 	}
-	path_walker.WalkPath(path, targetExtension, affectedExtensions)
+	extChangeJob := path_walker.ExtChangeJob{
+		Path:             "C:\\Users\\Thiago\\Desktop\\Test",
+		NewExtensionType: ".txt",
+		Whitelist:        newWhitelist,
+	}
+	extChangeJob.WalkPath()
 }
