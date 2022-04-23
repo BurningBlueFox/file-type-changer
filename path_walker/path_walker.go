@@ -10,32 +10,43 @@ import (
 	"strings"
 )
 
-func WalkPath(dir string) {
-	err := filepath.Walk(dir, walkPathCallback())
+type Whitelist map[string]bool
+
+// WalkPath Walk the path and it's subdirectories while changing all files ending
+// with changedExtensions to the newExtensionType
+func WalkPath(dir, newExtensionType string, whitelist Whitelist) {
+	err := filepath.Walk(dir, walkPathCallback(newExtensionType, whitelist))
 	if err != nil {
 		log.Fatal(err)
 	}
 }
 
-func walkPathCallback() func(path string, info fs.FileInfo, err error) error {
+func walkPathCallback(newExt string, whitelist Whitelist) func(path string, info fs.FileInfo, err error) error {
 	return func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return err
 		}
 
 		if info.IsDir() == false {
-			newFileName, changeExtErr := changeExtension(path, ".txt")
-			if changeExtErr != nil {
-				ct.ChangeColor(ct.Red, true, ct.None, false)
-				log.Printf("could not change filepath for file at %s \n", path)
-			} else {
-				logNewFileName(info, newFileName)
-			}
+			applyExtensionChange(path, newExt, whitelist, info)
 		} else {
 			ct.ChangeColor(ct.Blue, true, ct.None, false)
 			log.Printf("\n\npath: %s \n", path)
 		}
 		return nil
+	}
+}
+
+func applyExtensionChange(path string, newExt string, whitelist Whitelist, info fs.FileInfo) {
+	if whitelist[filepath.Ext(path)] == false {
+		return
+	}
+	newFileName, changeExtErr := changeExtension(path, newExt)
+	if changeExtErr != nil {
+		ct.ChangeColor(ct.Red, true, ct.None, false)
+		log.Printf("could not change filepath for file at %s \n", path)
+	} else {
+		logNewFileName(newFileName, info)
 	}
 }
 
@@ -58,7 +69,7 @@ func changeExtension(path, newFileExtension string) (newFileName string, err err
 	return
 }
 
-func logNewFileName(info fs.FileInfo, newFileName string) {
+func logNewFileName(newFileName string, info fs.FileInfo) {
 	if info.Name() == newFileName {
 		ct.ChangeColor(ct.Black, true, ct.None, false)
 		fmt.Printf("file: %s did not change \n", info.Name())

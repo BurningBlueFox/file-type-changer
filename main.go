@@ -5,10 +5,20 @@ import (
 	"fmt"
 )
 
-const testPath = "C:\\Users\\Thiago\\Desktop\\Test"
-
 func main() {
 	fmt.Println("File Type changer")
 
-	path_walker.WalkPath(testPath)
+	var (
+		path               string
+		targetExtension    string
+		affectedExtensions path_walker.Whitelist
+	)
+
+	path = "C:\\Users\\Thiago\\Desktop\\Test"
+	targetExtension = ".txt"
+	affectedExtensions = path_walker.Whitelist{
+		"":          true,
+		".material": true,
+	}
+	path_walker.WalkPath(path, targetExtension, affectedExtensions)
 }
