@@ -1,11 +1,13 @@
 package main
 
 import (
+	"file-type-changer/cli"
 	"file-type-changer/path_walker"
 	"fmt"
 )
 
 func main() {
+	cli.ParseCli()
 	fmt.Println("File Type changer")
 
 	newWhitelist := path_walker.Whitelist{

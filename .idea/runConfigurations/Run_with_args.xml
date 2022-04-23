@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run with args" type="GoApplicationRunConfiguration" factoryName="Go Application">
+    <module name="file-type-changer" />
+    <working_directory value="$PROJECT_DIR$" />
+    <parameters value="-path=C:\Users\Thiago\Desktop\Test -new_extension_type=.img -whitelist=()(.meta)" />
+    <kind value="PACKAGE" />
+    <package value="file-type-changer" />
+    <directory value="$PROJECT_DIR$" />
+    <filePath value="$PROJECT_DIR$/main.go" />
+    <method v="2" />
+  </configuration>
+</component>
