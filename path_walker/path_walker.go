@@ -2,6 +2,7 @@ package path_walker
 
 import (
 	"fmt"
+	"github.com/daviddengcn/go-colortext"
 	"io/fs"
 	"log"
 	"os"
@@ -25,11 +26,13 @@ func walkPathCallback() func(path string, info fs.FileInfo, err error) error {
 		if info.IsDir() == false {
 			newFileName, changeExtErr := changeExtension(path, ".txt")
 			if changeExtErr != nil {
+				ct.ChangeColor(ct.Red, true, ct.None, false)
 				log.Printf("could not change filepath for file at %s \n", path)
 			} else {
 				logNewFileName(info, newFileName)
 			}
 		} else {
+			ct.ChangeColor(ct.Blue, true, ct.None, false)
 			log.Printf("\n\npath: %s \n", path)
 		}
 		return nil
@@ -57,8 +60,10 @@ func changeExtension(path, newFileExtension string) (newFileName string, err err
 
 func logNewFileName(info fs.FileInfo, newFileName string) {
 	if info.Name() == newFileName {
-		fmt.Printf("file %s did not change \n", info.Name())
+		ct.ChangeColor(ct.Black, true, ct.None, false)
+		fmt.Printf("file: %s did not change \n", info.Name())
 	} else {
-		fmt.Printf("file %s is now %s \n", info.Name(), newFileName)
+		ct.ChangeColor(ct.Green, true, ct.None, false)
+		fmt.Printf("file: %s -> %s \n", info.Name(), newFileName)
 	}
 }

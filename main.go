@@ -9,5 +9,6 @@ const testPath = "C:\\Users\\Thiago\\Desktop\\Test"
 
 func main() {
 	fmt.Println("File Type changer")
+
 	path_walker.WalkPath(testPath)
 }
