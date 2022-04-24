@@ -11,6 +11,7 @@ func main() {
 
 	if job == nil {
 		fmt.Println("invalid inputs, please use the correct values")
+		return
 	}
 
 	job.Run()
