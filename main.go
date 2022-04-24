@@ -2,22 +2,16 @@ package main
 
 import (
 	"file-type-changer/cli"
-	"file-type-changer/path_walker"
 	"fmt"
 )
 
 func main() {
 	fmt.Println("File Type changer")
-	cli.ParseCli()
+	job := cli.ParseCli()
 
-	newWhitelist := path_walker.Whitelist{
-		"":          true,
-		".material": true,
+	if job == nil {
+		fmt.Println("invalid inputs, please use the correct values")
 	}
-	extChangeJob := path_walker.ExtChangeJob{
-		Path:             "C:\\Users\\Thiago\\Desktop\\Test",
-		NewExtensionType: ".txt",
-		Whitelist:        newWhitelist,
-	}
-	extChangeJob.WalkPath()
+
+	job.Run()
 }

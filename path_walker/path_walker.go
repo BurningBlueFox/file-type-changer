@@ -10,9 +10,9 @@ import (
 	"strings"
 )
 
-// WalkPath Walk the path and it's subdirectories while changing all files ending
+// Run Walk the path and it's subdirectories while changing all files ending
 // with changedExtensions to the newExtensionType
-func (e *ExtChangeJob) WalkPath() {
+func (e *ExtChangeJob) Run() {
 	err := filepath.Walk(e.Path, walkPathCallback(e.NewExtensionType, e.Whitelist))
 	if err != nil {
 		log.Fatal(err)
