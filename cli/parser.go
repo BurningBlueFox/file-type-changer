@@ -7,16 +7,17 @@ import (
 	"regexp"
 )
 
-func ParseCli() *path_walker.ExtChangeJob {
+func ParseCli() (*path_walker.ExtChangeJob, *path_walker.LowercaseChangeJob) {
 	pathPtr := flag.String("path", "", "the system path for the desired application")
 	extTypePtr := flag.String("new_extension_type", "", "the new extension type for the files")
 	whitelistPtr := flag.String("whitelist", "", "the file extensions where the new type will be applied, should be encapsulated in ()")
+	lowercasePtr := flag.Bool("lowercase", false, "true if all files should be replaced with lowercase")
 
 	flag.Parse()
 
 	if *pathPtr == "" || *whitelistPtr == "" {
 		fmt.Println("path or whitelist invalid, please fix the arguments")
-		return nil
+		return nil, nil
 	}
 
 	fmt.Printf("Path: %s\nNew Extension Type: %s\n", *pathPtr, *extTypePtr)
@@ -34,5 +35,12 @@ func ParseCli() *path_walker.ExtChangeJob {
 		}
 	}
 
-	return &job
+	if *lowercasePtr == true {
+		lowercaseJob := path_walker.LowercaseChangeJob{
+			Path: *pathPtr,
+		}
+		return &job, &lowercaseJob
+	} else {
+		return &job, nil
+	}
 }

@@ -7,7 +7,7 @@ import (
 
 func main() {
 	fmt.Println("File Type changer")
-	job := cli.ParseCli()
+	job, lowercaseJob := cli.ParseCli()
 
 	if job == nil {
 		fmt.Println("invalid inputs, please use the correct values")
@@ -15,4 +15,8 @@ func main() {
 	}
 
 	job.Run()
+
+	if lowercaseJob != nil {
+		lowercaseJob.Run()
+	}
 }
